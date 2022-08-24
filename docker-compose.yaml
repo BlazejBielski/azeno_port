@@ -1,0 +1,23 @@
+services:
+  backend_core:
+    build:
+      context: ./backend_core
+    env_file:
+      - ./backend_core/env/.env
+    depends_on:
+      - backend_core_db
+    restart: on-failure
+    ports:
+      - 8000:8000
+
+  backend_core_db:
+    image: postgres:14-alpine
+    volumes:
+      - backend_core_postgres:/var/lib/postgresql/data
+    env_file:
+      - ./backend_core/env/.env
+#    ports:
+#      - 5444:5432
+
+volumes:
+  backend_core_postgres:
